@@ -1,4 +1,3 @@
 # Love2dTopDownEngine
 
-Code is currently broken. Waiting on fix. 
-Also Rendering Issues with map and player.
+A 2D top down template written in Love2D. Uses Tiled (or STI)
