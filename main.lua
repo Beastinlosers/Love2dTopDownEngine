@@ -1,4 +1,4 @@
-require "cde/characters"
+local character = require "cde/characters"
 local sti = require "libs/sti"
 local mapInfo = require "cde/maps" -- Imports mapInfo from maps
 mapNum = 0;
@@ -8,6 +8,10 @@ mapNum = 0;
 
 -- Called ONCE at beginning of game
 function love.load()
+  --[[love.profiler = require('profile')
+  love.profiler.hookall("Lua")
+  love.profiler.start() ]]
+
   love.physics.setMeter(32) -- Set world meter size (in pixels) -> One block (32 pixels) = 1 meter
 	map = sti(mapInfo[("map" .. mapNum)].mapdir, {"box2d"}, 0, 64); -- Load a map exported to Lua from Tiled
 	world = love.physics.newWorld(0, 0); -- Prepare physics world with horizontal and vertical gravity
@@ -20,9 +24,8 @@ function love.load()
 	-- Add data to Custom Layer
 	local spriteLayer = map.layers["Sprite Layer"]
 
-
   spriteLayer.player = {
-    playerImg = love.graphics.newImage("assets/sprites/playeridlerifle.png"),
+    playerImg = love.graphics.newImage("assets/sprites/playermodels/playeridlerifle.png"),
     posX = 20,
     posY = 20,
   }
