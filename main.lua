@@ -22,7 +22,7 @@ function love.load()
 	map:addCustomLayer("Sprite Layer", 3)  -- TODO find perfect number
 
 	-- Add data to Custom Layer
-	local spriteLayer = map.layers["Sprite Layer"]
+	 spriteLayer = map.layers["Sprite Layer"]
 
   spriteLayer.player = {
     playerImg = love.graphics.newImage("assets/sprites/playermodels/playeridlerifle.png"),
@@ -42,14 +42,14 @@ function love.load()
 -- Draw callback for Custom Layer
 function spriteLayer:update(dt)
   function spriteLayer:draw()
-		for _, sprite in pairs(self.sprites) do
-			local posX = math.floor(sprite.posX)
-			local y = math.floor(sprite.posY)
+			local x = math.floor(pl.posX)
+			local y = math.floor(pl.posY)
 			-- local r = sprite.r
 			love.graphics.draw(pl.playerImg, pl.posX, pl.posY, pl.HeadRotation, 2, 2, pl.playerImg:getWidth() / 2, pl.playerImg:getHeight() / 2);
-		end
-	end
+  end
 end
+
+
 end
 
 -- Draws Every Frame
