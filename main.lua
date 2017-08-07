@@ -2,7 +2,7 @@ local character = require "cde/characters"
 local sti = require "libs/sti"
 local mapInfo = require "cde/maps" -- Imports mapInfo from maps
 mapNum = 0;
-
+local gun = require "cde/gunLoadout"
 
 
 
@@ -19,13 +19,13 @@ function love.load()
 
 
   -- Create a Custom Layer
-	map:addCustomLayer("Sprite Layer", 3)  -- TODO find perfect number
+	map:addCustomLayer("Sprite Layer", 3)
 
 	-- Add data to Custom Layer
 	 spriteLayer = map.layers["Sprite Layer"]
 
   spriteLayer.player = {
-    playerImg = love.graphics.newImage("assets/sprites/playermodels/playeridlerifle.png"),
+    playerImg = love.graphics.newImage("assets/sprites/playermodels/playerIdle.png"),
     posX = 20,
     posY = 20,
   }
@@ -42,9 +42,6 @@ function love.load()
 -- Draw callback for Custom Layer
 function spriteLayer:update(dt)
   function spriteLayer:draw()
-			local x = math.floor(pl.posX)
-			local y = math.floor(pl.posY)
-			-- local r = sprite.r
 			love.graphics.draw(pl.playerImg, pl.posX, pl.posY, pl.HeadRotation, 2, 2, pl.playerImg:getWidth() / 2, pl.playerImg:getHeight() / 2);
   end
 end
@@ -55,32 +52,53 @@ end
 -- Draws Every Frame
 function love.draw()
     love.graphics.print("logging");
-     -- Draws Player to screen
+
     map:draw();
 end
 
 -- Updated Things Every Frame
 function love.update(dt)
+  gunChecker();  -- Displays Appropriate Sprite based on Gun in hand
   map:update(dt)
 	world:update(dt);
-  love.mouse.getX();
-  love.mouse.getY();
   if love.keyboard.isDown("w") then pl.posY = pl.posY - 5; end
   if love.keyboard.isDown("s") then pl.posY = pl.posY + 5; end
-  if love.keyboard.isDown("a") then pl.posX= pl.posX- 5; end
+  if love.keyboard.isDown("a") then pl.posX= pl.posX - 5; end
   if love.keyboard.isDown("d") then pl.posX= pl.posX+ 5; end
   pl.HeadRotation = math.atan2( love.mouse.getX() - pl.posX, pl.posY - love.mouse.getY() ) - math.pi / 2; -- Rotates player torwards mouse
 end
 
 function love.keypressed(key) -- For when you have to press it once, if held for a extended time, use keyBindings()
   if key == "escape" then
-      love.event.quit()
+      love.event.quit();
   end
   if key == "tab" then
- 		local state = not love.mouse.isGrabbed()   -- the opposite of whatever it currently is
- 		love.mouse.setGrabbed(state)
+ 		local state = not love.mouse.isGrabbed();  -- the opposite of whatever it currently is
+ 		love.mouse.setGrabbed(state);
   end
+  if key == "1" then gunIsEquipedFalseGlobal(); gun.m4.isEquipped = true; end
+  if key == "2" then gunIsEquipedFalseGlobal(); gun.glock.isEquipped = true; end
+  if key == "3" then gunIsEquipedFalseGlobal(); gun.remington.isEquipped = true; end
+  if key == "e" then gunIsEquipedFalseGlobal(); end
+end
 
+function gunChecker()
+  if gun.m4.isEquipped == true then
+      pl.playerImg = love.graphics.newImage("assets/sprites/playermodels/playerIdleM4.png");
+  end
+  if gun.glock.isEquipped == true then
+    pl.playerImg = love.graphics.newImage("assets/sprites/playermodels/playerIdleGlock.png");
+  end
+  if gun.remington.isEquipped == true then
+    pl.playerImg = love.graphics.newImage("assets/sprites/playermodels/playerIdleRemington.png");
+  end
+end
+
+function gunIsEquipedFalseGlobal()
+  gun.m4.isEquipped = false;
+  gun.glock.isEquipped = false;
+  gun.remington.isEquipped = false;
+  pl.playerImg = love.graphics.newImage("/assets/sprites/playermodels/playerIdle.png"); -- If player is idle, set pl.playerImg to playerIdle.png
 end
 
 --[[function keyBindings()
