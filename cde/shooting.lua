@@ -12,7 +12,7 @@ function shoot.create_bullet(x, y, vx, vy)
     timer = 2, -- number of seconds that the bullet is around for
   }
 
-  function bullet:update(dt)
+  function shoot.update(dt)
     self.x = self.x + self.vx * dt;
     self.y = self.y + self.vy * dt;
 
@@ -22,7 +22,7 @@ function shoot.create_bullet(x, y, vx, vy)
     end
   end
 
-  function bullet:draw()  -- Draws bullet
+  function shoot.draw()  -- Draws bullet
     love.graphics.setColor(0, 255, 0); -- Sets color of bullet to zero
     love.graphics.rectangle("fill", self.x, self.y, 8, 8);
   end
