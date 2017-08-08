@@ -1,4 +1,6 @@
-function create_bullet(x, y, vx, vy)
+shoot = {}
+
+function shoot.create_bullet(x, y, vx, vy)
   local bullet = {
     -- Variables used for calculations
     x = x or 0,

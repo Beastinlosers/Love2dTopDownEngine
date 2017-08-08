@@ -11,12 +11,10 @@ function love.load()
   love.profiler.hookall("Lua")
   love.profiler.start() ]]
   entities = {}
-
   love.physics.setMeter(32) -- Set world meter size (in pixels) -> One block (32 pixels) = 1 meter
 	map = sti(mapInfo[("map" .. mapNum)].mapdir, {"box2d"}, 0, 64); -- Load a map exported to Lua from Tiled
 	world = love.physics.newWorld(0, 0); -- Prepare physics world with horizontal and vertical gravity
 	map:box2d_init(world); -- Prepare collision objects
-
 
   -- Create a Custom Layer
 	map:addCustomLayer("Sprite Layer", 3)
@@ -79,7 +77,7 @@ function love.update(dt)
   if love.keyboard.isDown("s") then pl.posY = pl.posY + 5; end
   if love.keyboard.isDown("a") then pl.posX= pl.posX - 5; end
   if love.keyboard.isDown("d") then pl.posX= pl.posX+ 5; end
-  if love.mouse.isDown(1) then table.insert(entities, shooting.create_bullet(posX, posY, -100, 0)); end
+  if love.mouse.isDown(1) then table.insert(entities, shoot.create_bullet(posX, posY, -100, 0)); end
   pl.HeadRotation = math.atan2( love.mouse.getX() - pl.posX, pl.posY - love.mouse.getY() ) - math.pi / 2; -- Rotates player torwards mouse
 end
 
