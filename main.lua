@@ -77,6 +77,7 @@ function love.update(dt)
   if love.keyboard.isDown("s") then pl.posY = pl.posY + 5; end
   if love.keyboard.isDown("a") then pl.posX= pl.posX - 5; end
   if love.keyboard.isDown("d") then pl.posX= pl.posX+ 5; end
+  -- problem is here, look at commit for more deets
   if love.mouse.isDown(1) then table.insert(entities, shoot.create_bullet(posX, posY, -100, 0)); end
   pl.HeadRotation = math.atan2( love.mouse.getX() - pl.posX, pl.posY - love.mouse.getY() ) - math.pi / 2; -- Rotates player torwards mouse
 end
