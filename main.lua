@@ -62,14 +62,7 @@ end
 
 -- Updated Things Every Frame
 function love.update(dt)
-  for i, v in ipairs(entities) do
-    if v.remove then
-        table.remove(entities,i)
-        i = i -1;
-      else
-          v:update(dt)
-      end
-    end
+  entitiesChecker();
   gunChecker();  -- Displays Appropriate Sprite based on Gun in hand
   map:update(dt)
 	world:update(dt);
@@ -114,6 +107,17 @@ function gunIsEquipedFalseGlobal()
   gun.remington.isEquipped = false;
   pl.playerImg = love.graphics.newImage("/assets/sprites/playermodels/playerIdle.png"); -- If player is idle, set pl.playerImg to playerIdle.png
 end
+
+function entitiesChecker()
+  for i, v in ipairs(entities) do
+    if v.remove then
+        table.remove(entities,i)
+        i = i -1;
+      else
+          v:update(dt)
+      end
+    end
+  end
 
 --[[function keyBindings()
   if love.keyboard.isDown("w") then pl.posY = pl.posY + 5; end
