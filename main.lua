@@ -62,16 +62,26 @@ end
 
 -- Updated Things Every Frame
 function love.update(dt)
+
   entitiesChecker();
   gunChecker();  -- Displays Appropriate Sprite based on Gun in hand
   map:update(dt)
 	world:update(dt);
-  if love.keyboard.isDown("w") then pl.posY = pl.posY - 5; end
-  if love.keyboard.isDown("s") then pl.posY = pl.posY + 5; end
-  if love.keyboard.isDown("a") then pl.posX= pl.posX - 5; end
-  if love.keyboard.isDown("d") then pl.posX= pl.posX+ 5; end
+  if love.keyboard.isDown("w") then pl.posY = pl.posY - 1; end
+  if love.keyboard.isDown("s") then pl.posY = pl.posY + 1; end
+  if love.keyboard.isDown("a") then pl.posX= pl.posX - 1; end
+  if love.keyboard.isDown("d") then pl.posX= pl.posX + 1; end
   -- problem is here, look at commit for more deets
-  if love.mouse.isDown(1) then table.insert(entities, (shoot.create_bullet(posX, posY, -100, 0))); end
+  if love.mouse.isDown(1) then
+    local speed = 256;
+    local mx, my = love.mouse.getPosition(); -- Gets mouse position
+    local angle = math.atan2(my - (pl.posY + 16), mx - (pl.posX + 16)); -- Calculates angle
+    local vx, vy = math.cos(angle) * speed, -- Cos and Sin are opposites forming a circle
+                   math.sin(angle) * speed;
+
+    table.insert(entities, (shoot.create_bullet(pl.posX * 16 - 4, pl.posY * 16 -4, vx, vy)));
+
+  end
   pl.HeadRotation = math.atan2( love.mouse.getX() - pl.posX, pl.posY - love.mouse.getY() ) - math.pi / 2; -- Rotates player torwards mouse
 end
 

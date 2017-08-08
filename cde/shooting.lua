@@ -12,6 +12,7 @@ function shoot.create_bullet(x, y, vx, vy)
     timer = 2, -- number of seconds that the bullet is around for
   }
 
+  -- Needs to be changed. We dont calculate for velocity when moving player
   function shoot.update(dt)
     self.x = self.x + self.vx * dt;
     self.y = self.y + self.vy * dt;
