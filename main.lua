@@ -1,4 +1,3 @@
-local character = require "cde/characters"
 local sti = require "libs/sti"
 local mapInfo = require "cde/maps" -- Imports mapInfo from maps
 mapNum = 0;
@@ -29,6 +28,7 @@ function love.load()
     posX = 20,
     posY = 20,
   }
+
   pl = spriteLayer.player;
   -- Creates rigid body collider (fixture) on player
   pl.body = love.physics.newBody(world, pl.posX, pl.posY, "dynamic");
@@ -51,13 +51,26 @@ end
 
 -- Draws Every Frame
 function love.draw()
-    love.graphics.print("logging");
+    love.graphics.setColor(255, 0, 0);
+    love.graphics.print(love.timer.getFPS(), 0, 0);
+
+    for i, v in ipairs(entities) do
+      v:draw()
+    end
 
     map:draw();
 end
 
 -- Updated Things Every Frame
 function love.update(dt)
+  for i, v in ipairs(entities) do
+    if v.remove then
+        table.remove(entities,i)
+        i = i -1;
+      else
+          v:update(dt)
+      end
+    end
   gunChecker();  -- Displays Appropriate Sprite based on Gun in hand
   map:update(dt)
 	world:update(dt);
@@ -65,6 +78,7 @@ function love.update(dt)
   if love.keyboard.isDown("s") then pl.posY = pl.posY + 5; end
   if love.keyboard.isDown("a") then pl.posX= pl.posX - 5; end
   if love.keyboard.isDown("d") then pl.posX= pl.posX+ 5; end
+  if love.mouse.isDown(1) then table.insert(create_bullet) end
   pl.HeadRotation = math.atan2( love.mouse.getX() - pl.posX, pl.posY - love.mouse.getY() ) - math.pi / 2; -- Rotates player torwards mouse
 end
 

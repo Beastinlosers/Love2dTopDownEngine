@@ -1,8 +1,0 @@
-return {
-
-  player = {
-      posX,
-      posY,
-  }
-
-}
