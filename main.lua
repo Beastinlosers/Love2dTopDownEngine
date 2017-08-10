@@ -19,11 +19,12 @@ function love.load()
 	world = love.physics.newWorld(0, 0); -- Prepare physics world with horizontal and vertical gravity
 	map:box2d_init(world); -- Prepare collision objects
 
-  -- Create a Custom Layer
-	map:addCustomLayer("Sprite Layer", 3)
-
-	-- Add data to Custom Layer
-	 spriteLayer = map.layers["Sprite Layer"]
+  -- Create a Custom Layer here
+	map:addCustomLayer("Sprite Layer", 3) -- Players, enemys, dropped items
+	map:addCustomLayer("UI Layer", 4)     -- Health, Ammo, boss health, etc (stuff that can't be covered by stuff happening in game)
+  -- Add data to Custom Layer
+	spriteLayer = map.layers["Sprite Layer"]
+	uiLayer = map.layers["UI Layer"]
 
   spriteLayer.player = {
     playerImg = love.graphics.newImage("assets/sprites/playermodels/playerIdle.png"),
@@ -40,10 +41,10 @@ function love.load()
   pl.fixture = love.physics.newFixture(pl.body, pl.shape);
   pl.fixture:setUserData("player");
   
-  spriteLayer.artAssetLoader = { -- General Art Assets
+  uiLayer.artAssetLoader = { -- General Art Assets
 	crosshair = love.graphics.newImage("/assets/sprites/icon/crosshair.png"),
   }
-  artAssetLoader = spriteLayer.artAssetLoader;
+  artAssetLoader = uiLayer.artAssetLoader;
   
   world = love.physics.newWorld(0, 200, true);
 
@@ -51,10 +52,14 @@ function love.load()
 function spriteLayer:update(dt)
   function spriteLayer:draw()
 			love.graphics.draw(pl.playerImg, pl.posX, pl.posY, pl.HeadRotation, 2, 2, pl.playerImg:getWidth() / 2, pl.playerImg:getHeight() / 2);
-			love.graphics.draw(artAssetLoader.crosshair, love.mouse.getX() - artAssetLoader.crosshair:getWidth() / 2, love.mouse.getY() - artAssetLoader.crosshair:getHeight() / 2, 1.5, 1.5);
+			
   end
 end
-
+function uiLayer:update(dt)
+	function uiLayer:draw()
+			love.graphics.draw(artAssetLoader.crosshair, love.mouse.getX() - artAssetLoader.crosshair:getWidth() / 2, love.mouse.getY() - artAssetLoader.crosshair:getHeight() / 2, 1.5, 1.5);
+	end
+end
 
 end
 
