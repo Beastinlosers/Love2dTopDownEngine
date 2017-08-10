@@ -49,13 +49,17 @@ function love.load()
   world = love.physics.newWorld(0, 200, true);
 
 -- Draw callback for Custom Layer
-function spriteLayer:update(dt)
+function spriteLayer:update(dt) -- Draws and updates stuff under the SPRITE LAYER (Layer 3)
   function spriteLayer:draw()
-			love.graphics.draw(pl.playerImg, pl.posX, pl.posY, pl.HeadRotation, 2, 2, pl.playerImg:getWidth() / 2, pl.playerImg:getHeight() / 2);
+			love.graphics.draw(pl.playerImg, pl.posX, pl.posY, pl.HeadRotation, 2, 2, pl.playerImg:getWidth() / 2, pl.playerImg:getHeight() / 2);			
 			
+			for i, v in ipairs(entities) do -- Draws temporary entities from entities {}
+				v:draw()
+			end
   end
 end
-function uiLayer:update(dt)
+
+function uiLayer:update(dt) -- Draws and updates stuff under the UI LAYER 		  (Layer 4)
 	function uiLayer:draw()
 			love.graphics.draw(artAssetLoader.crosshair, love.mouse.getX() - artAssetLoader.crosshair:getWidth() / 2, love.mouse.getY() - artAssetLoader.crosshair:getHeight() / 2, 1.5, 1.5);
 	end
@@ -67,9 +71,7 @@ end
 function love.draw()
     love.graphics.print(love.timer.getFPS(), 0, 0);
 
-    for i, v in ipairs(entities) do
-      v:draw()
-    end
+    
 
     map:draw();
 end
@@ -82,7 +84,8 @@ function love.update(dt)
   map:update(dt)
   world:update(dt);
   playerMovement();
-  -- Problem area
+  
+  
   if love.mouse.isDown(1) then
     local speed = 256;
     local mx, my = love.mouse.getPosition(); -- Gets mouse position
@@ -90,9 +93,10 @@ function love.update(dt)
     local vx, vy = math.cos(angle) * speed, -- Cos and Sin are opposites forming a circle
                    math.sin(angle) * speed;
 	table.insert(entities, (shoot.create_bullet(pl.posX * 16 - 4, pl.posY * 16 -4, vx, vy)));
+	print(shooting); --  TODO Doesn't work problem drawing above????
   end
   
-  pl.HeadRotation = math.atan2( love.mouse.getX() - pl.posX, pl.posY - love.mouse.getY() ) - math.pi / 2; -- Rotates player torwards mouse
+  
 end
 
 function love.keypressed(key) -- For when you have to press it once, if held for a extended time, use keyBindings()
@@ -109,7 +113,7 @@ function love.keypressed(key) -- For when you have to press it once, if held for
   if key == "e" then gunIsEquipedFalseGlobal(); end
 end
 
-function gunChecker()
+function gunChecker() -- Sees what gun is equiped to set player model
   if gun.m4.isEquipped == true then
       pl.playerImg = love.graphics.newImage("assets/sprites/playermodels/playerIdleM4.png");
   end
@@ -121,14 +125,14 @@ function gunChecker()
   end
 end
 
-function gunIsEquipedFalseGlobal()
+function gunIsEquipedFalseGlobal() -- Sets all gun.WHATEVER.isEquipped = false, then sets playerIdle.png to player 
   gun.m4.isEquipped = false;
   gun.glock.isEquipped = false;
   gun.remington.isEquipped = false;
   pl.playerImg = love.graphics.newImage("/assets/sprites/playermodels/playerIdle.png"); -- If player is idle, set pl.playerImg to playerIdle.png
 end
 
-function entitiesChecker()
+function entitiesChecker() -- Polls through entiites to draw them
   for i, v in ipairs(entities) do
     if v.remove then
         table.remove(entities,i)
@@ -139,17 +143,11 @@ function entitiesChecker()
     end
   end
   
-function playerMovement()
-	-- local universalDirectionalPlayerSpeed = 2.2; -- Sets a Direcional Player speed for all directions
+function playerMovement() -- General player movement and player rotation
+	pl.HeadRotation = math.atan2( love.mouse.getX() - pl.posX, pl.posY - love.mouse.getY() ) - math.pi / 2; -- Rotates player torwards mouse
+	
 	if love.keyboard.isDown("w") then pl.posY = pl.posY - pl.universalDirectionalPlayerSpeed; end
 	if love.keyboard.isDown("s") then pl.posY = pl.posY + pl.universalDirectionalPlayerSpeed; end
-	if love.keyboard.isDown("a") then pl.posX= pl.posX - pl.universalDirectionalPlayerSpeed; end
-	if love.keyboard.isDown("d") then pl.posX= pl.posX + pl.universalDirectionalPlayerSpeed; end
+	if love.keyboard.isDown("a") then pl.posX = pl.posX - pl.universalDirectionalPlayerSpeed; end
+	if love.keyboard.isDown("d") then pl.posX = pl.posX + pl.universalDirectionalPlayerSpeed; end
 end
-
---[[function keyBindings()
-  if love.keyboard.isDown("w") then pl.posY = pl.posY + 5; end
-  if love.keyboard.isDown("s") then pl.posY = pl.posY - 5; end
-  if love.keyboard.isDown("a") then pl.posX = pl.posX - 5; end
-  if love.keyboard.isDown("d") then pl.posX = pl.posX + 5; end
-end]]
