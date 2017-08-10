@@ -7,6 +7,9 @@ local shooting = require "cde/shooting"
 
 -- Called ONCE at beginning of game
 function love.load()
+  -- artAssetLoader();  TODO create an easy way to import assets through function. Table-> function OR function call in load()??
+  love.mouse.setVisible(false);
+  love.mouse.setGrabbed(true);
   --[[love.profiler = require('profile')
   love.profiler.hookall("Lua")
   love.profiler.start() ]]
@@ -28,7 +31,6 @@ function love.load()
     posY = 20,
 	universalDirectionalPlayerSpeed = 2.2,
   }
-
   pl = spriteLayer.player;
   -- Creates rigid body collider (fixture) on player
   pl.body = love.physics.newBody(world, pl.posX, pl.posY, "dynamic");
@@ -37,12 +39,19 @@ function love.load()
   pl.shape = love.physics.newRectangleShape(0,0,10,10);
   pl.fixture = love.physics.newFixture(pl.body, pl.shape);
   pl.fixture:setUserData("player");
+  
+  spriteLayer.artAssetLoader = { -- General Art Assets
+	crosshair = love.graphics.newImage("/assets/sprites/icon/crosshair.png"),
+  }
+  artAssetLoader = spriteLayer.artAssetLoader;
+  
   world = love.physics.newWorld(0, 200, true);
 
 -- Draw callback for Custom Layer
 function spriteLayer:update(dt)
   function spriteLayer:draw()
 			love.graphics.draw(pl.playerImg, pl.posX, pl.posY, pl.HeadRotation, 2, 2, pl.playerImg:getWidth() / 2, pl.playerImg:getHeight() / 2);
+			love.graphics.draw(artAssetLoader.crosshair, love.mouse.getX() - artAssetLoader.crosshair:getWidth() / 2, love.mouse.getY() - artAssetLoader.crosshair:getHeight() / 2, 1.5, 1.5);
   end
 end
 
@@ -51,7 +60,6 @@ end
 
 -- Draws Every Frame
 function love.draw()
-
     love.graphics.print(love.timer.getFPS(), 0, 0);
 
     for i, v in ipairs(entities) do
