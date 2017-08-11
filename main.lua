@@ -3,7 +3,7 @@ local mapInfo = require "cde/maps" -- Imports mapInfo from maps
 mapNum = 0;
 local gun = require "cde/gunLoadout"
 local shooting = require "cde/shooting"
-
+local inspect = require "libs/inspect-lua/inspect"
 
 -- Called ONCE at beginning of game
 function love.load()
@@ -88,12 +88,13 @@ function love.update(dt)
   
   if love.mouse.isDown(1) then
     local speed = 256;
-    local mx, my = love.mouse.getPosition(); -- Gets mouse position
-    local angle = math.atan2(my - (pl.posY + 16), mx - (pl.posX + 16)); -- Calculates angle
-    local vx, vy = math.cos(angle) * speed, -- Cos and Sin are opposites forming a circle
+	local mx, my = love.mouse.getPosition(); -- Gets mouse position
+	local angle = math.atan2(my - (pl.posY + 16), mx - (pl.posX + 16)); -- Calculates angle
+	local vx, vy = math.cos(angle) * speed, -- Cos and Sin are opposites forming a circle
                    math.sin(angle) * speed;
-	table.insert(entities, (shoot.create_bullet(pl.posX * 16 - 4, pl.posY * 16 -4, vx, vy)));
-	print(shooting); --  TODO Doesn't work problem drawing above????
+	table.insert(entities, (shoot.create_bullet(pl.posX * 16 - 4, pl.posY * 16 -4, vx, vy))); -- TODO Problem here, not creating bullet 
+	print(inspect(entities));
+	print("bullet drawn"); 
   end
   
   
@@ -132,7 +133,7 @@ function gunIsEquipedFalseGlobal() -- Sets all gun.WHATEVER.isEquipped = false, 
   pl.playerImg = love.graphics.newImage("/assets/sprites/playermodels/playerIdle.png"); -- If player is idle, set pl.playerImg to playerIdle.png
 end
 
-function entitiesChecker() -- Polls through entiites to draw them
+function entitiesChecker() -- Polls through entities to draw them
   for i, v in ipairs(entities) do
     if v.remove then
         table.remove(entities,i)
