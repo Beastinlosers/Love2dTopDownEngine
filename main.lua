@@ -7,14 +7,12 @@ local inspect = require "libs/inspect-lua/inspect"
 
 -- Called ONCE at beginning of game
 function love.load()
-  -- artAssetLoader();  TODO create an easy way to import assets through function. Table-> function OR function call in load()??
-  love.mouse.setVisible(false);
-  love.mouse.setGrabbed(true);
-  --[[love.profiler = require('profile')
-  love.profiler.hookall("Lua")
-  love.profiler.start() ]]
-  entities = {}
-  love.physics.setMeter(32) -- Set world meter size (in pixels) -> One block (32 pixels) = 1 meter
+  -- Sets up the game for menu cursor and crosshair
+	love.mouse.setVisible(false);
+	love.mouse.setGrabbed(true);
+
+	entities = {} -- Empty table for entities to pass through
+	love.physics.setMeter(32) -- Set world meter size (in pixels) -> One block (32 pixels) = 1 meter
 	map = sti(mapInfo[("map" .. mapNum)].mapdir, {"box2d"}, 0, 64); -- Load a map exported to Lua from Tiled
 	world = love.physics.newWorld(0, 0); -- Prepare physics world with horizontal and vertical gravity
 	map:box2d_init(world); -- Prepare collision objects
@@ -25,11 +23,11 @@ function love.load()
   -- Add data to Custom Layer
 	spriteLayer = map.layers["Sprite Layer"]
 	uiLayer = map.layers["UI Layer"]
-
+  -- Creates player table on the spriteLayer 
   spriteLayer.player = {
     playerImg = love.graphics.newImage("assets/sprites/playermodels/playerIdle.png"),
-    posX = 20,
-    posY = 20,
+    posX = 250,
+    posY = 400,
 	universalDirectionalPlayerSpeed = 2.2,
   }
   pl = spriteLayer.player;
@@ -41,10 +39,12 @@ function love.load()
   pl.fixture = love.physics.newFixture(pl.body, pl.shape);
   pl.fixture:setUserData("player");
   
-  uiLayer.artAssetLoader = { -- General Art Assets
+  -- Asset Loader to load and store UI elements
+  uiLayer.uiArtGeneral = { -- General Art Assets
 	crosshair = love.graphics.newImage("/assets/sprites/icon/crosshair.png"),
   }
-  artAssetLoader = uiLayer.artAssetLoader;
+  
+  uiArtGeneral = uiLayer.uiArtGeneral;
   
   world = love.physics.newWorld(0, 200, true);
 
@@ -61,7 +61,7 @@ end
 
 function uiLayer:update(dt) -- Draws and updates stuff under the UI LAYER 		  (Layer 4)
 	function uiLayer:draw()
-			love.graphics.draw(artAssetLoader.crosshair, love.mouse.getX() - artAssetLoader.crosshair:getWidth() / 2, love.mouse.getY() - artAssetLoader.crosshair:getHeight() / 2, 1.5, 1.5);
+			love.graphics.draw(uiArtGeneral.crosshair, love.mouse.getX() - uiArtGeneral.crosshair:getWidth() / 2, love.mouse.getY() - uiArtGeneral.crosshair:getHeight() / 2, 1.5, 1.5);
 	end
 end
 
@@ -130,6 +130,7 @@ function gunIsEquipedFalseGlobal() -- Sets all gun.WHATEVER.isEquipped = false, 
   gun.m4.isEquipped = false;
   gun.glock.isEquipped = false;
   gun.remington.isEquipped = false;
+  print("Previous equiped item unequiped");
   pl.playerImg = love.graphics.newImage("/assets/sprites/playermodels/playerIdle.png"); -- If player is idle, set pl.playerImg to playerIdle.png
 end
 
