@@ -1,0 +1,55 @@
+f = {}
+
+
+
+function f.tryShoot(dt)
+    if not canShoot then
+        shootTimer = shootTimer - (1 * dt)
+
+        if shootTimer < 0 then
+            canShoot = true
+        end
+    end
+
+    if love.mouse.isDown(1) and canShoot then
+        bullet = {
+          x = pl.posX + (player.image:getWidth() / 2), -- fix
+          y = pl.posY,
+          image = bulletImage, 
+          speed = 140}
+        canShoot = false
+        shootTimer = shootMax
+
+        --laser = love.audio.newSource("assets/gun.ogg", "static") -- fix
+        -- laser:play() Kept in for example
+
+        table.insert(bullets, bullet)
+    end
+end
+
+function f.positionBullets(dt)
+    for i, b in ipairs(bullets) do
+        b.y = b.y - (b.speed * dt)
+
+        if b.y < 0 then
+            table.remove(bullets, i)
+        end
+
+        for n, e in ipairs(enemies) do
+            if collision(b, e) then
+                hit = love.audio.newSource("assets/hit.ogg", "static")
+                hit:play()
+
+                table.remove(bullets, i)
+                table.remove(enemies, n)
+            end
+        end
+    end
+end
+
+function f.drawBullets()
+    for i, b in ipairs(bullets) do
+        love.graphics.draw(b.image, b.x, b.y)
+    end
+end
+return f;
