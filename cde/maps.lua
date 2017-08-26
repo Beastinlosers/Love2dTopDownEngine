@@ -1,7 +1,7 @@
 return {
 
   map0 = {
-    mapdir="/assets/maps/testmap.lua"
+    mapdir="/assets/maps/testMap.lua"
     -- bg = "/assets/res/...."
   },
 
