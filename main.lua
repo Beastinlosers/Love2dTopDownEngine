@@ -1,15 +1,7 @@
 local sti = require "libs/sti"
 local mapInfo = require "cde/maps" -- Imports mapInfo from maps
 mapNum = 0;
-local gun = require "cde/gunLoadout"
-local shooting = require "cde/shooting"
-local inspect = require "libs/inspect-lua/inspect"
-local testMap = require "assets/maps/testMap"
 
-canShoot = true;
-shootMax = 0.2;
-shootTimer = shootMax;
-bullets = {}
 -- Called ONCE at beginning of game
 function love.load()
 
