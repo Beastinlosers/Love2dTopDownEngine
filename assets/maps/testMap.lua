@@ -1,7 +1,7 @@
 return {
   version = "1.1",
   luaversion = "5.1",
-  tiledversion = "0.17.0",
+  tiledversion = "1.0.3",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 20,
@@ -24,6 +24,11 @@ return {
       tileoffset = {
         x = 0,
         y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 32,
+        height = 32
       },
       properties = {},
       terrains = {},
@@ -50,6 +55,11 @@ return {
       tileoffset = {
         x = 0,
         y = 0
+      },
+      grid = {
+        orientation = "orthogonal",
+        width = 32,
+        height = 32
       },
       properties = {},
       terrains = {},
@@ -112,9 +122,7 @@ return {
       opacity = 1,
       offsetx = 0,
       offsety = 0,
-      properties = {
-        ["DOOR1"] = "DOOR2"
-      },
+      properties = {},
       encoding = "lua",
       data = {
         13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
@@ -148,7 +156,7 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {
-        ["sensor"] = "true"
+        ["collidable"] = "true"
       },
       objects = {
         {
@@ -266,7 +274,9 @@ return {
           height = 99,
           rotation = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["collidable"] = "true"
+          }
         },
         {
           id = 12,
