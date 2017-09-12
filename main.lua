@@ -25,9 +25,10 @@ end
 
 -- Updated Things Every Frame
 function love.update(dt)
-  controls.player()
   map:update(dt)
   world:update(dt)
+  --controls.player()
+
 
 
   
