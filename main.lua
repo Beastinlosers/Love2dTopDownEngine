@@ -8,6 +8,7 @@ mapNum = 0;
 -- Called ONCE at beginning of game
 function love.load()
 
+
   -- Sets up the game for menu cursor and crosshair
 	love.mouse.setVisible(true); --for debugging purposes
 	love.mouse.setGrabbed(true);
@@ -17,16 +18,23 @@ function love.load()
 
 end
 
--- Draws Every Frame
+-- Draws every frame
 function love.draw()
-    love.graphics.print(love.timer.getFPS(), 0, 0);
-    map:draw();
+    local ww = love.graphics.getWidth()
+    local wh = love.graphics.getHeight()
+    local tx = math.floor(-spriteLayer.player.posX + ww / 2 - 16)
+    local ty = math.floor(-spriteLayer.player.posY + wh / 2 - 16)
+
+    love.graphics.translate(tx,ty)
+
+    love.graphics.print(love.timer.getFPS(), 0, 0)
+    map:draw()
 end
 
--- Updated Things Every Frame
+-- Updates every frame
 function love.update(dt)
-  map:update(dt)
   world:update(dt)
+  map:update(dt)
   --controls.player()
 
 
