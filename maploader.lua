@@ -5,9 +5,7 @@ function maploader.init()
 	love.physics.setMeter(32) -- Set world meter size (in pixels) -> One block (32 pixels) = 1 meter
 	map = sti(mapinfo[("map" .. mapNum)].mapdir, {"box2d"}); -- Load a map exported to Lua from Tiled
 	world = love.physics.newWorld(0, 0); -- Prepare physics world with horizontal and vertical gravity
-
 	maploader.layers(world)
-
   map:box2d_init(world) -- Prepare collision objects
 
 
@@ -27,30 +25,19 @@ function maploader.layers(world)
     body,
     shape,
     fixture,
-	  universalDirectionalPlayerSpeed = 0.8,
   }
 
-    -- Creates rigid body collider (fixture) on player
-    spriteLayer.player.body = love.physics.newBody(world, spriteLayer.player.posX, spriteLayer.player.posY, "dynamic");
-    spriteLayer.player.body:setLinearDamping(80);
-    spriteLayer.player.body:setFixedRotation(true);
-    spriteLayer.player.shape = love.physics.newRectangleShape(20,20);
-    spriteLayer.player.fixture = love.physics.newFixture(spriteLayer.player.body, spriteLayer.player.shape);
-    spriteLayer.player.fixture:setUserData("player");
+    -- Creates a body collider (fixture) on player
+    spriteLayer.player.body = love.physics.newBody(world, spriteLayer.player.posX, spriteLayer.player.posY, "dynamic")
+    spriteLayer.player.body:setLinearDamping(60)
+    spriteLayer.player.body:setFixedRotation(true)
+    spriteLayer.player.shape = love.physics.newCircleShape(10)
+    spriteLayer.player.fixture = love.physics.newFixture(spriteLayer.player.body, spriteLayer.player.shape)
+    spriteLayer.player.fixture:setUserData("player")
 
 
-  function spriteLayer:update(dt)
-    local x, y = 0, 0
-    if love.keyboard.isDown("w") then y = y - 6000 end
-    if love.keyboard.isDown("s") then y = y + 6000 end
-    if love.keyboard.isDown("a") then x = x - 6000 end
-    if love.keyboard.isDown("d") then x = x + 6000 end
-
-    spriteLayer.player.body:applyForce(x,y)
-    spriteLayer.player.posX, spriteLayer.player.posY = spriteLayer.player.body:getWorldCenter()
-
-    spriteLayer.player.HeadRotation = math.atan2( love.mouse.getX() - spriteLayer.player.posX, spriteLayer.player.posY - love.mouse.getY() ) - math.pi / 2; 
-
+  function spriteLayer:update(dt) 
+    controls.player()
 
   end  
   
