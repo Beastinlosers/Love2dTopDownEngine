@@ -5,9 +5,11 @@ maploader = require "maploader"
 
 mapNum = 0;
 
+io.stdout:setvbuf('no')
+
 -- Called ONCE at beginning of game
 function love.load()
-
+  print("starting")
 
   -- Sets up the game for menu cursor and crosshair
 	love.mouse.setVisible(true); --for debugging purposes

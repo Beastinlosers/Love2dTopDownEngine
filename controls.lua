@@ -1,6 +1,7 @@
 controls = {}
 
 function controls.player() -- General player controls
+  -- There's a better way to handle controls but keep it simple for now
   local x, y = 0, 0
     if love.keyboard.isDown("w") then y = y - 6000 end
     if love.keyboard.isDown("s") then y = y + 6000 end

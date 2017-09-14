@@ -13,7 +13,7 @@ function love.conf(t)
         ====================================================================================]]
 
     t.version = "0.10.2"                -- Made Using this version of LÖVE (string) Will throw error if stupid
-    t.console = true                   -- Attach a console (boolean, Windows only, see MORE)--[[
+    t.console = false                   -- Attach a console (boolean, Windows only, see MORE)--[[
        --[[
         MORE:
     If you are using atom.io (from github), download love-ide (through atom package installer) and its dependancies, go to

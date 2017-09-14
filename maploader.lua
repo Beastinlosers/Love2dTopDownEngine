@@ -12,6 +12,7 @@ function maploader.init()
 end
 
 function maploader.layers(world)
+  print("loading map layers")
   -- Create a Custom Layer here
 	map:addCustomLayer("Sprite Layer", 3) -- Players, enemys, dropped items
 	map:addCustomLayer("UI Layer", 4)     -- Health, Ammo, boss health, etc (stuff that can't be covered by stuff happening in game)
@@ -35,6 +36,8 @@ function maploader.layers(world)
     spriteLayer.player.fixture = love.physics.newFixture(spriteLayer.player.body, spriteLayer.player.shape)
     spriteLayer.player.fixture:setUserData("player")
 
+    maploader.objecthandler()
+
 
   function spriteLayer:update(dt) 
     controls.player()
@@ -48,12 +51,20 @@ function maploader.layers(world)
 		love.graphics.draw(spriteLayer.player.playerImg, spriteLayer.player.posX, spriteLayer.player.posY, spriteLayer.player.HeadRotation, 2, 2, spriteLayer.player.playerImg:getWidth() / 2, spriteLayer.player.playerImg:getHeight() / 2);
   end
 
+end
 
-  function maploader.objecthandler()
 
-  end
+function maploader.objecthandler()
+  print("loading object handler")
+
+  for _, layer in ipairs(map.layers) do
+      -- Entire layer
+      if layer.properties.sensor == true then
 
 
 end
+
+
+
 
 return maploader
