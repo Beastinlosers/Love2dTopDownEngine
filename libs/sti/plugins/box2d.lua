@@ -183,7 +183,7 @@ return {
 		for _, layer in ipairs(map.layers) do
 			-- Entire layer
 			if layer.properties.collidable == true then
-				if layer.type == "tilelayer" then
+				if layer.type == "tilelayer" then 
 					for gid, tiles in pairs(map.tileInstances) do
 						local tile = map.tiles[gid]
 						local tileset = map.tilesets[tile.tileset]

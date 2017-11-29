@@ -3,7 +3,8 @@ mapinfo = require "maps" -- Imports map info from maps
 controls = require "controls" -- handles all controls
 maploader = require "maploader"
 
-mapNum = 0;
+mapNum = 0
+
 
 io.stdout:setvbuf('no')
 
@@ -24,10 +25,11 @@ end
 function love.draw()
     local ww = love.graphics.getWidth()
     local wh = love.graphics.getHeight()
-    local tx = math.floor(-spriteLayer.player.posX + ww / 2 - 16)
-    local ty = math.floor(-spriteLayer.player.posY + wh / 2 - 16)
+    -- TODO: Implement properly
+    --local tx = math.floor(-spriteLayer.player.posX + ww / 2 - 16)
+    --local ty = math.floor(-spriteLayer.player.posY + wh / 2 - 16)
 
-    love.graphics.translate(tx,ty)
+    --love.graphics.translate(tx,ty)
 
     love.graphics.print(love.timer.getFPS(), 0, 0)
     map:draw()
@@ -37,8 +39,6 @@ end
 function love.update(dt)
   world:update(dt)
   map:update(dt)
-  --controls.player()
-
 
 
   
