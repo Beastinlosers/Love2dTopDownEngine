@@ -16,39 +16,39 @@ end
 function maploader.layers(world)
   print("loading map layers...")
 
-  -- Load any layers defined in layerdata.lua
-  for i,v in pairs(layerdata) do
-    
-    print("generating known layers...")
-    
-    -- Sprite Layer | UI Layer | etc 
-    if (i == "spriteLayer") then spriteLayer = map:addCustomLayer(layerdata[i], layerdata[i].stacklvl) end
-    if (i == "uiLayer") then uiLayer = map:addCustomLayer(layerdata[i], layerdata[i].stacklvl) end
-    -- set more layers if needed
-  
-  end
-
-  -- Now spawn any sprites/npcs incl. player
+    -- Now spawn any sprites/npcs incl. player
   for k,v in pairs(spritedata.spritedata) do
     local spritedat = spritedata.spritedata[k]
     --printAssociateTable(spritedat)
-
-
     spritedat.body = love.physics.newBody(world, spritedat.posX, spritedat.posY, spritedat.bodytype)
     spritedat.body:setLinearDamping(spritedat.lndamping)
     spritedat.shape = love.physics.newCircleShape(spritedat.circleshape)
     spritedat.fixture = love.physics.newFixture(spritedat.body, spritedat.shape)
     spritedat.fixture:setUserData(spritedat.userdata)
 
-    function spriteLayer:update(dt) 
-      controls.player()
-    end
-    
-    function spriteLayer:draw()
-      love.graphics.draw(spritedata.spritedata.player.sprite, spritedata.spritedata.player.posX, spritedata.spritedata.player.posY, spritedata.spritedata.player.HeadRotation, 2, 2, spritedata.spritedata.player.sprite:getWidth() / 2, spritedata.spritedata.player.sprite:getHeight() / 2)
-    end
   end
 
+  -- Load any layers defined in layerdata.lua
+   for i,v in ipairs(layerdata) do
+    
+    print("generating known layers...")
+    
+    -- Sprite Layer | UI Layer | etc 
+    layerdata[i] = map:addCustomLayer (layerdata[i], layerdata[i].stacklvl) 
+
+      local function layerdataupdate(dt) 
+        controls.player()
+      end
+
+     layerdata[i].update = layerdataupdate
+    
+      local function layerdatadraw()
+        love.graphics.draw(spritedata.spritedata.player.sprite, spritedata.spritedata.player.posX, spritedata.spritedata.player.posY, spritedata.spritedata.player.HeadRotation, 2, 2, spritedata.spritedata.player.sprite:getWidth() / 2, spritedata.spritedata.player.sprite:getHeight() / 2)
+      end
+
+       layerdata[1].draw = layerdatadraw
+
+  end
 
   maploader.objecthandler()
 
@@ -56,6 +56,7 @@ function maploader.layers(world)
   
 
 end
+
 
 
 function maploader.objecthandler()
