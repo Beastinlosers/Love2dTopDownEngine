@@ -11,32 +11,27 @@ function maploader.init()
 	maploader.layers(world)
   map:box2d_init(world) -- Prepare collision objects
 
-
 end
 
 function maploader.layers(world)
-  print("loading map layers")
-
-  layer = {}
+  print("loading map layers...")
 
   -- Load any layers defined in layerdata.lua
   for i,v in pairs(layerdata) do
-
-    table.insert(layer, i)
-
-    layer[layerdata[i]] = map:addCustomLayer(layerdata[i], layerdata[i].stacklvl)
-    print("I'm doing this")
     
-
-    --spriteLayer = map.layerdata[i].id
-
-
+    print("generating known layers...")
+    
+    -- Sprite Layer | UI Layer | etc 
+    if (i == "spriteLayer") then spriteLayer = map:addCustomLayer(layerdata[i], layerdata[i].stacklvl) end
+    if (i == "uiLayer") then uiLayer = map:addCustomLayer(layerdata[i], layerdata[i].stacklvl) end
+    -- set more layers if needed
+  
   end
 
   -- Now spawn any sprites/npcs incl. player
   for k,v in pairs(spritedata.spritedata) do
     local spritedat = spritedata.spritedata[k]
-    printAssociateTable(spritedat)
+    --printAssociateTable(spritedat)
 
 
     spritedat.body = love.physics.newBody(world, spritedat.posX, spritedat.posY, spritedat.bodytype)
@@ -44,21 +39,15 @@ function maploader.layers(world)
     spritedat.shape = love.physics.newCircleShape(spritedat.circleshape)
     spritedat.fixture = love.physics.newFixture(spritedat.body, spritedat.shape)
     spritedat.fixture:setUserData(spritedat.userdata)
-  end
 
-  for p,v in pairs(table_name) do
-    print(p,v)
+    function spriteLayer:update(dt) 
+      controls.player()
+    end
+    
+    function spriteLayer:draw()
+      love.graphics.draw(spritedata.spritedata.player.sprite, spritedata.spritedata.player.posX, spritedata.spritedata.player.posY, spritedata.spritedata.player.HeadRotation, 2, 2, spritedata.spritedata.player.sprite:getWidth() / 2, spritedata.spritedata.player.sprite:getHeight() / 2)
+    end
   end
-
-  --function spriteLayer:update(dt) 
-  --  controls.player()
-  --end  
-  
-  ---- Draw callback for Custom Layerfunction spriteLayer:update(dt) -- Draws and updates stuff under the SPRITE LAYER
-  --function spriteLayer:draw()
-  --  -- Draw player sprite
-  --  love.graphics.draw(spriteLayer.player.playerImg, spriteLayer.player.posX, spriteLayer.player.posY, spriteLayer.player.HeadRotation, 2, 2, spriteLayer.player.playerImg:getWidth() / 2, spriteLayer.player.playerImg:getHeight() / 2);
-  --end
 
 
   maploader.objecthandler()
