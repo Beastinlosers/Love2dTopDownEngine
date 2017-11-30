@@ -25,11 +25,12 @@ end
 function love.draw()
     local ww = love.graphics.getWidth()
     local wh = love.graphics.getHeight()
+    
     -- TODO: Implement properly
-    --local tx = math.floor(-spriteLayer.player.posX + ww / 2 - 16)
-    --local ty = math.floor(-spriteLayer.player.posY + wh / 2 - 16)
+    local tx = math.floor(-spritedata.spritedata.player.posX + ww / 2 - 16)
+    local ty = math.floor(-spritedata.spritedata.player.posY + wh / 2 - 16)
 
-    --love.graphics.translate(tx,ty)
+    love.graphics.translate(tx,ty)
 
     love.graphics.print(love.timer.getFPS(), 0, 0)
     map:draw()

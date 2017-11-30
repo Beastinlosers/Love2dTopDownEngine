@@ -16,7 +16,7 @@ end
 function maploader.layers(world)
   print("loading map layers...")
 
-    -- Now spawn any sprites/npcs incl. player
+  -- Spawn any sprites/npcs incl. player
   for k,v in pairs(spritedata.spritedata) do
     local spritedat = spritedata.spritedata[k]
     --printAssociateTable(spritedat)
@@ -29,31 +29,32 @@ function maploader.layers(world)
   end
 
   -- Load any layers defined in layerdata.lua
-   for i,v in ipairs(layerdata) do
+  for i,v in ipairs(layerdata) do
     
     print("generating known layers...")
     
-    -- Sprite Layer | UI Layer | etc 
+    -- [1] Sprite Layer | [2] UI Layer | etc 
     layerdata[i] = map:addCustomLayer (layerdata[i], layerdata[i].stacklvl) 
 
-      local function layerdataupdate(dt) 
-        controls.player()
-      end
+    -- Player movement
+    local function spritelayerdataupdate(dt) 
+      controls.player()
+    end
 
-     layerdata[i].update = layerdataupdate
+    layerdata[1].update = spritelayerdataupdate
     
-      local function layerdatadraw()
-        love.graphics.draw(spritedata.spritedata.player.sprite, spritedata.spritedata.player.posX, spritedata.spritedata.player.posY, spritedata.spritedata.player.HeadRotation, 2, 2, spritedata.spritedata.player.sprite:getWidth() / 2, spritedata.spritedata.player.sprite:getHeight() / 2)
-      end
+    -- Draw player
+    local function spritelayerdatadraw()
+      love.graphics.draw(spritedata.spritedata.player.sprite, spritedata.spritedata.player.posX, spritedata.spritedata.player.posY, spritedata.spritedata.player.HeadRotation, 2, 2, spritedata.spritedata.player.sprite:getWidth() / 2, spritedata.spritedata.player.sprite:getHeight() / 2)
+    end
 
-       layerdata[1].draw = layerdatadraw
+    layerdata[1].draw = spritelayerdatadraw
 
   end
 
   maploader.objecthandler()
 
-
-  
+  print("loaded layers...")
 
 end
 
