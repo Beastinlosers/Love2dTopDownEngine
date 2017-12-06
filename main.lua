@@ -3,9 +3,9 @@ mapinfo = require "maps" -- Imports map info from maps
 controls = require "controls" -- handles all controls
 maploader = require "maploader"
 
-mapNum = 0
+mapNum = 1
 
-
+mx , my = "", ""
 io.stdout:setvbuf('no')
 
 -- Called ONCE at beginning of game
@@ -25,19 +25,16 @@ end
 function love.draw()
     local ww = love.graphics.getWidth()
     local wh = love.graphics.getHeight()
-    
-    -- TODO: Implement properly
-    local tx = math.floor(-spritedata.spritedata.player.posX + ww / 2 - 16)
-    local ty = math.floor(-spritedata.spritedata.player.posY + wh / 2 - 16)
-
-    love.graphics.translate(tx,ty)
-
-    love.graphics.print(love.timer.getFPS(), 0, 0)
     map:draw()
+
+    
 end
 
 -- Updates every frame
 function love.update(dt)
+  mx = love.mouse.getX()
+  my = love.mouse.getY()
+  
   world:update(dt)
   map:update(dt)
 
@@ -46,9 +43,12 @@ function love.update(dt)
 end
 
 function love.keypressed(key) -- For when you have to press it once, if held for a extended time, use keyBindings()
+  -- Esc: quick quit
   if key == "escape" then
       love.event.quit();
   end
+
+  -- Tab: toggle window mouselock
   if key == "tab" then
  		local state = not love.mouse.isGrabbed();  -- the opposite of whatever it currently is
  		love.mouse.setGrabbed(state);

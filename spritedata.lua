@@ -2,12 +2,14 @@ return {
     spritedata = {
 
       player = {
-        sprite = love.graphics.newImage("assets/sprites/playermodels/playeridle.png"),
+        sprite = love.graphics.newImage("assets/sprites/playermodels/playertemp.png"),
         posX = 250,
         posY = 400,
+        scale = 0.5,
         body, 
         shape,
         fixture,
+        headrotation,
         lndamping = 60,
         rot = true,
         circleshape = 10,

@@ -151,19 +151,21 @@ return {
     },
     {
       type = "objectgroup",
-      name = "sensors",
+      name = "debugsens",
       visible = true,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
       draworder = "topdown",
       properties = {
-        ["sensor"] = true
+        ["collidable"] = true,
+        ["sensor"] = true,
+        ["userdata"] = "testsensor"
       },
       objects = {
         {
           id = 21,
-          name = "",
+          name = "toggletest",
           type = "",
           shape = "rectangle",
           x = 222,

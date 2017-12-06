@@ -42,6 +42,8 @@ return {
 
 			if userdata.properties.sensor == true then
 				fixture:setSensor(true)
+				-- sets userdata to player defined userdata
+				fixture:setUserData(userdata.properties.userdata)
 			end
 
 			local obj = {

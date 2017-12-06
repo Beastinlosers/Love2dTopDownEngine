@@ -67,10 +67,12 @@
 13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13
 </data>
  </layer>
- <objectgroup name="sensors">
+ <objectgroup name="debugsens">
   <properties>
+   <property name="collidable" type="bool" value="true"/>
    <property name="sensor" type="bool" value="true"/>
+   <property name="userdata" value="testsensor"/>
   </properties>
-  <object id="21" x="222" y="29" width="132" height="87"/>
+  <object id="21" name="toggletest" x="222" y="29" width="132" height="87"/>
  </objectgroup>
 </map>

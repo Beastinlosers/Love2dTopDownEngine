@@ -15,7 +15,7 @@ function controls.player() -- General player controls
     playerdat.posX, playerdat.posY = playerdat.body:getWorldCenter()
 
     -- Allow character to rotate to follow the mouse. Can be removed if not needed
-    playerdat.HeadRotation = math.atan2( love.mouse.getX() - playerdat.posX, playerdat.posY - love.mouse.getY() ) - math.pi / 2; 
+    playerdat.headrotation = math.atan2( love.mouse.getX() - playerdat.posX, playerdat.posY - love.mouse.getY() ) - math.pi / 2; 
 
 end
 
