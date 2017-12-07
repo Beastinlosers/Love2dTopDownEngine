@@ -3,9 +3,12 @@ mapinfo = require "maps" -- Imports map info from maps
 controls = require "controls" -- handles all controls
 maploader = require "maploader"
 
+
 mapNum = 1
 
+-- MouseX and Y
 mx , my = "", ""
+-- Live console
 io.stdout:setvbuf('no')
 
 -- Called ONCE at beginning of game
@@ -26,8 +29,6 @@ function love.draw()
     local ww = love.graphics.getWidth()
     local wh = love.graphics.getHeight()
     map:draw()
-
-    
 end
 
 -- Updates every frame
@@ -37,11 +38,9 @@ function love.update(dt)
   
   world:update(dt)
   map:update(dt)
-
-
-  
 end
 
+-- global keys, will be removed later
 function love.keypressed(key) -- For when you have to press it once, if held for a extended time, use keyBindings()
   -- Esc: quick quit
   if key == "escape" then

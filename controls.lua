@@ -8,7 +8,7 @@ function controls.player() -- General player controls
     if love.keyboard.isDown("a") then x = x - 6000 end
     if love.keyboard.isDown("d") then x = x + 6000 end
 
-    local playerdat = spritedata.spritedata.player
+    local playerdat = spritedata.player
 
     playerdat.body:applyForce(x,y)
     -- Sync the sprite with the collision object

@@ -6,27 +6,32 @@ mapdata = require "maps"
 
 function maploader.init()
 
+  --Debug variables
+  collisiontext = ""
+
+  -- init all the map junk
 	love.physics.setMeter(32) -- Set world meter size (in pixels) -> One block (32 pixels) = 1 meter
 	map = sti(mapinfo[("map" .. mapNum)].mapdir, {"box2d"}); -- Load a map exported to Lua from Tiled
 	world = love.physics.newWorld(0, 0); -- Prepare physics world with horizontal and vertical gravity
 	world:setCallbacks(beginContact, endContact)
-  maploader.layers(world)
-  map:box2d_init(world) -- Prepare collision objects
 
+  -- Prepare collision objects and move on to init layers
+  map:box2d_init(world) 
+  maploader.layers(world)
+  
 end
 
 function maploader.layers(world)
   print("loading map layers...")
 
   -- Spawn any sprites/npcs incl. player
-  for k,v in pairs(spritedata.spritedata) do -- I should fix table redundancy
-    local spritedat = spritedata.spritedata[k]
+  for k,v in pairs(spritedata) do
     --printAssociateTable(spritedat)
-    spritedat.body = love.physics.newBody(world, spritedat.posX, spritedat.posY, spritedat.bodytype)
-    spritedat.body:setLinearDamping(spritedat.lndamping)
-    spritedat.shape = love.physics.newCircleShape(spritedat.circleshape)
-    spritedat.fixture = love.physics.newFixture(spritedat.body, spritedat.shape)
-    spritedat.fixture:setUserData(spritedat.userdata)
+    spritedata[k].body = love.physics.newBody(world, spritedata[k].posX, spritedata[k].posY, spritedata[k].bodytype)
+    spritedata[k].body:setLinearDamping(spritedata[k].lndamping)
+    spritedata[k].shape = love.physics.newCircleShape(spritedata[k].circleshape)
+    spritedata[k].fixture = love.physics.newFixture(spritedata[k].body, spritedata[k].shape)
+    spritedata[k].fixture:setUserData(spritedata[k].userdata)
 
   end
 
@@ -41,8 +46,6 @@ function maploader.layers(world)
     -- Player movement and sensor handling
     local function spritelayerdataupdate(dt) 
       controls.player()
-
-
     end
 
      -- Define layer functions for update
@@ -51,44 +54,66 @@ function maploader.layers(world)
     
     -- Draw player
     local function spritelayerdatadraw()
-      love.graphics.draw(spritedata.spritedata.player.sprite, spritedata.spritedata.player.posX, spritedata.spritedata.player.posY, spritedata.spritedata.player.headrotation, 2, 2, spritedata.spritedata.player.sprite:getWidth() / 2, spritedata.spritedata.player.sprite:getHeight() / 2)
-
+      love.graphics.draw(spritedata.player.sprite,
+                         spritedata.player.posX,
+                         spritedata.player.posY,
+                         spritedata.player.headrotation, 
+                         2, 
+                         2, 
+                         spritedata.player.sprite:getWidth() / 2,
+                         spritedata.player.sprite:getHeight() / 2)
     end
     -- UI layer
     local function uilayerdatadraw()
+      -- debug stuff
       love.graphics.print("mouse x: = " .. mx, 1100,0)
       love.graphics.print("mouse y: = " .. my, 1100,10)
-
-      love.graphics.print("Touching")
+      love.graphics.print("Touching: " .. collisiontext)
     end
    
     -- Define layer functions for draw
     layerdata[1].draw = spritelayerdatadraw
     layerdata[2].draw = uilayerdatadraw
-
-    
-    
   end
 
-  maploader.objecthandler()
+  --maploader.objecthandler()
 
   print("loaded layers...")
 
 end
 
+--function maploader.objecthandler()
+--  print("loading object handler")
+--end
 
--- Instantiate objects stored in maps/layers
-function maploader.objecthandler()
-  print("loading object handler")
-  
-  for _, layer in ipairs(map.layers) do
-    --wwrPrint(map.layers)
-    --printAssociateTable(map.layers)
+
+-- Handle callbacks
+
+function beginContact(a, b, coll)
+  rPrint(a:getUserData())
+
+  if (a:getUserData() == "centersensor") then 
+      collisiontext = "centersensor"
   end
 
+  if (a:getUserData() == "cornersensor") then 
+      collisiontext = "cornersensor"
+  end
 end
 
--- debug stuff
+
+
+
+
+
+
+--------------------------------------------------------
+--  __| | ___| |__  _   _  __ _   ___| |_ _   _ / _|/ _|
+-- / _` |/ _ \ '_ \| | | |/ _` | / __| __| | | | |_| |_ 
+--| (_| |  __/ |_) | |_| | (_| | \__ \ |_| |_| |  _|  _|
+-- \__,_|\___|_.__/ \__,_|\__, | |___/\__|\__,_|_| |_|  
+--                        |___/ 
+
 function printAssociateTable(t)
   print("displaying table-------------------------------------------------------")
   for i,v in pairs(t) do
@@ -111,14 +136,6 @@ function rPrint(s, l, i) -- recursive Print (structure, limit, indent)
   return l
 end 
 
--- callbacks
-
-function beginContact(a, b, coll)
-  rPrint(a:getUserData())
-
-  if (a:getUserData() == "centersensor" or b:getUserData() == "centersensor") then 
-      --text = text.."\n"..a:getUserData().." collided with " .. b:getUserData()
-    end
-end
 
 return maploader
+

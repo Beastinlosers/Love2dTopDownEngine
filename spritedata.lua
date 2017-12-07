@@ -1,6 +1,4 @@
 return {
-    spritedata = {
-
       player = {
         sprite = love.graphics.newImage("assets/sprites/playermodels/playertemp.png"),
         posX = 250,
@@ -16,7 +14,5 @@ return {
         bodytype = "dynamic",
         userdata = "player",
         state = 0, -- 0 = Visible, 1 = Invisible&Disabled, 2 = Disabled&Visible (for menus, etc)
-
-      },
     },
 }
