@@ -13,7 +13,7 @@ function love.conf(t)
         ====================================================================================]]
 
     t.version = "0.10.2"                -- Made Using this version of LÖVE (string) Will throw error if stupid
-    t.console = true                   -- Attach a console (boolean, Windows only, see MORE)--[[
+    t.console = false                   -- Attach a console (boolean, Windows only, see MORE)--[[
        --[[
         MORE:
     If you are using atom.io (from github), download love-ide (through atom package installer) and its dependancies, go to
@@ -23,8 +23,8 @@ function love.conf(t)
 
     t.window.title = "Window Title"         -- The window title (string)
     t.window.icon = nil                 -- Filepath (C:/example/example.png/jpeg) to icon image (top left corner of window)
-    t.window.width = 1280                -- The window width (number)
-    t.window.height = 720               -- The window height (number)
+    t.window.width = 1366                -- The window width (number)
+    t.window.height = 736               -- The window height (number)
     t.window.fullscreen = false         -- Enable fullscreen (boolean)
     t.window.borderless = false         -- Remove all border visuals from the window (boolean)
     t.window.resizable = false          -- Let the window be user-resizable (boolean)

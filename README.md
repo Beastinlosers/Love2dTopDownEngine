@@ -1,5 +1,8 @@
-# Love2dTopDownEngine
+# aaaaLove2D-Game
 
-A 2D top down template written in Love2D. Uses Tiled (or STI)
+My own take on a 2D top down template written in Love2D. 
 
-https://www.youtube.com/watch?v=A1DQ-BbqOX8
+# Uses
+Simple Tiled Implementation(STI): https://github.com/karai17/Simple-Tiled-Implementation
+
+Flux (for tweening): https://github.com/rxi/flux/
